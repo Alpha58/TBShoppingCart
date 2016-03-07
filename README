@@ -4,14 +4,14 @@
 
 ####本篇的效果：（如下4张图）  
 
-![pic1](http://img.blog.csdn.net/20160307203732529)     
+![pic1](https://github.com/zilianliuxue/TBShoppingCart/blob/master/pic1.gif)     
   
   ---------------------------------  ***pic1***------------------------
-![pic2](http://img.blog.csdn.net/20160307204127939)  
+![pic2](https://github.com/zilianliuxue/TBShoppingCart/blob/master/pic2.gif)  
  ---------------------------------  ***pic2***------------------------
-![pic3](http://img.blog.csdn.net/20160307204302486)  
+![pic3](https://github.com/zilianliuxue/TBShoppingCart/blob/master/pic3.gif)  
  ---------------------------------  ***pic3***------------------------
-![pic4](http://img.blog.csdn.net/20160307204532034)  
+![pic4](https://github.com/zilianliuxue/TBShoppingCart/blob/master/pic4.gif)  
  ---------------------------------  ***pic4***------------------------
 ###实现思路
 >主布局就是一个ExpandableListView,然后top的title显示购物车的商品数量，当删除某个商品需动态更新，右上角编辑按钮改变地步遮罩层的布局并且执行相关的操作，bottom是一个遮罩层编辑时显示删除不编辑时可以去结算。然后child的布局也是通过group的编辑状态来显示不同的布局，编辑状态下需要改变商品的数量和移除商品。
@@ -200,7 +200,7 @@
 </LinearLayout>
 ```
 大致的效果图：
-![这里写图片描述](http://img.blog.csdn.net/20160307205730804)
+![group](https://github.com/zilianliuxue/TBShoppingCart/blob/master/6.BX.S.CB.6MOHSY.GU.png)
 接下来我们来看child的 布局：
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -391,7 +391,7 @@ android:background="@drawable/text_angle_right"
 </LinearLayout>
 ```
 大致效果就是这样的：
-![这里写图片描述](http://img.blog.csdn.net/20160307210057736)
+![child](https://github.com/zilianliuxue/TBShoppingCart/blob/master/J.J1EY.MPOMR.X.Y2MMW.png)
 然后我们就来重点的讲代码了：
 ####**编辑按钮**的点击处理：
 ```
