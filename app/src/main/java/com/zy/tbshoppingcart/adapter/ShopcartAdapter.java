@@ -189,7 +189,11 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
             cholder.tv_color_size.setText("颜色：" + goodsInfo.getColor() + "," + "尺码：" + goodsInfo.getSize() + "瓶/斤");
             SpannableString spanString = new SpannableString("￥"+String.valueOf(goodsInfo.getDiscountPrice()));
             StrikethroughSpan span = new StrikethroughSpan();
-            spanString.setSpan(span, 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spanString.setSpan(span, 0, String.valueOf(goodsInfo.getDiscountPrice()).length()+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //避免无限次的appand
+            if(cholder.tv_discount_price.getText().toString().length()>0){
+                cholder.tv_discount_price.setText("");
+            }
             cholder.tv_discount_price.append(spanString);
             cholder.tv_buy_num.setText("x" + goodsInfo.getCount());
             cholder.cb_check.setChecked(goodsInfo.isChoosed());
