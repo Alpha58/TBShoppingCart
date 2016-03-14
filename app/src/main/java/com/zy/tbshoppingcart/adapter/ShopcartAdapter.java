@@ -116,6 +116,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
             gholder = (GroupViewHolder) convertView.getTag();
         }
         final StoreInfo group = (StoreInfo) getGroup(groupPosition);
+         gholder.store_edtor.setText("编辑");
         if (group != null) {
             gholder.tv_group_name.setText(group.getName());
             gholder.cb_check.setOnClickListener(new OnClickListener() {
@@ -145,7 +146,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
         } else {
             groups.remove(groupPosition);
         }
-
+         notifyDataSetChanged();
         return convertView;
     }
 
