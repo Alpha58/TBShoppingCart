@@ -63,6 +63,10 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
     TextView tvShare;
     @InjectView(R.id.tv_save)
     TextView tvSave;
+    @InjectView(R.id.ll_cart)
+    LinearLayout llCart;
+    @InjectView(R.id.layout_cart_empty)
+    LinearLayout cart_empty;
     private Context context;
     private double totalPrice = 0.00;// 购买的商品总价
     private int totalCount = 0;// 购买的商品总数量
@@ -103,16 +107,26 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
      * 设置购物车产品数量
      */
     private void setCartNum() {
-        int count=0;
+        int count = 0;
         for (int i = 0; i < groups.size(); i++) {
             groups.get(i).setChoosed(allChekbox.isChecked());
             StoreInfo group = groups.get(i);
             List<GoodsInfo> childs = children.get(group.getId());
-            for (GoodsInfo goodsInfo:childs){
-                count+=1;
+            for (GoodsInfo goodsInfo : childs) {
+                count += 1;
             }
         }
         title.setText("购物车" + "(" + count + ")");
+        //购物车已清空
+        if(count==0){
+            clearCart();
+        }
+    }
+
+    private void clearCart() {
+        subtitle.setVisibility(View.GONE);
+        llCart.setVisibility(View.GONE);
+        cart_empty.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -125,9 +139,9 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
             groups.add(new StoreInfo(i + "", "天猫店铺" + (i + 1) + "号店"));
             List<GoodsInfo> products = new ArrayList<GoodsInfo>();
             for (int j = 0; j <= i; j++) {
-             int[]   img={R.drawable.goods1,R.drawable.goods2,R.drawable.goods3,R.drawable.goods4,R.drawable.goods5,R.drawable.goods6};
+                int[] img = {R.drawable.goods1, R.drawable.goods2, R.drawable.goods3, R.drawable.goods4, R.drawable.goods5, R.drawable.goods6};
                 products.add(new GoodsInfo(j + "", "商品", groups.get(i)
-                        .getName() + "的第" + (j + 1) + "个商品", 12.00 + new Random().nextInt(23), new Random().nextInt(5) + 1, "豪华", "1", img[i*j],6.00+ new Random().nextInt(13)));
+                        .getName() + "的第" + (j + 1) + "个商品", 12.00 + new Random().nextInt(23), new Random().nextInt(5) + 1, "豪华", "1", img[i * j], 6.00 + new Random().nextInt(13)));
             }
             children.put(groups.get(i).getId(), products);// 将组元素的一个唯一值，这里取Id，作为子元素List的Key
         }
@@ -295,8 +309,13 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
 
 
         }
+
         tvTotalPrice.setText("￥" + totalPrice);
         tvGoToPay.setText("去支付(" + totalCount + ")");
+        //计算购物车的金额为0时候清空购物车的视图
+        if(totalCount==0){
+            setCartNum();
+        }
     }
 
     @OnClick({R.id.all_chekbox, R.id.tv_delete, R.id.tv_go_to_pay, R.id.subtitle, R.id.tv_save, R.id.tv_share})
@@ -391,7 +410,8 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
         groups.get(groupPosition).setIsEdtor(true);
         selva.notifyDataSetChanged();
     }
-    Handler handler=new Handler(){
+
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

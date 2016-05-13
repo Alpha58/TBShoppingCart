@@ -23,11 +23,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center_vertical"
                 android:padding="12dp"
-<<<<<<< HEAD
-                android:src="@mipmap/topbar_up" />
-=======
                 android:src="@drawable/topbar_up" />
->>>>>>> Initial commit
+
 
             <TextView
                 android:id="@+id/title"
@@ -44,11 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-<<<<<<< HEAD
-                android:layout_marginRight="40dp"
-=======
                 android:layout_marginRight="20dp"
->>>>>>> Initial commit
+
                 android:gravity="center"
                 android:minHeight="48dp"
                 android:text="编辑"
@@ -57,7 +51,16 @@
                 android:visibility="visible" />
         </RelativeLayout>
     </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <LinearLayout
+            android:id="@+id/ll_cart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
 
+            >
     <ExpandableListView
         android:id="@+id/exListView"
         android:layout_width="match_parent"
@@ -194,5 +197,12 @@
             </LinearLayout>
 
         </LinearLayout>
-
+        </LinearLayout>
+        <include
+            android:id="@+id/layout_cart_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/cart_empty"
+            android:visibility="gone"/>
+    </FrameLayout>
 </LinearLayout>
