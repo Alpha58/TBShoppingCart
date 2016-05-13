@@ -117,6 +117,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
             gholder = (GroupViewHolder) convertView.getTag();
         }
         final StoreInfo group = (StoreInfo) getGroup(groupPosition);
+
             gholder.tv_group_name.setText(group.getName());
             gholder.cb_check.setOnClickListener(new OnClickListener() {
                 @Override
@@ -128,20 +129,12 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
                 }
             });
             gholder.cb_check.setChecked(group.isChoosed());
-            gholder.store_edtor.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.groupEdit(groupPosition);
-                    if (flag == 0) {
-                        group.setIsEdtor(true);
-                        gholder.store_edtor.setText("完成");
-                    } else if (flag == 1) {
-                        group.setIsEdtor(false);
-                        gholder.store_edtor.setText("编辑");
-                    }
-                    flag = (flag + 1) % 2;//其余得到循环执行上面2个不同的功能
-                }
-            });
+        if (group.isEdtor()) {
+            gholder.store_edtor.setText("完成");
+        } else {
+            gholder.store_edtor.setText("编辑");
+        }
+        gholder.store_edtor.setOnClickListener(new GroupViewClick(groupPosition,gholder.store_edtor,group));
          notifyDataSetChanged();
         return convertView;
     }
@@ -340,5 +333,35 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
      */
     public interface GroupEdtorListener{
         void groupEdit(int groupPosition);
+    }
+    /**
+     * 使某个组处于编辑状态
+     * <p>
+     * groupPosition组的位置
+     */
+    class GroupViewClick implements View.OnClickListener {
+        private int groupPosition;
+        private Button edtor;
+        private StoreInfo group;
+
+        public GroupViewClick(int groupPosition, Button edtor, StoreInfo group) {
+            this.groupPosition = groupPosition;
+            this.edtor = edtor;
+            this.group = group;
+        }
+
+        @Override
+        public void onClick(View v) {
+            int groupId = v.getId();
+            if (groupId == edtor.getId()) {
+                if (group.isEdtor()) {
+                    group.setIsEdtor(false);
+                } else {
+                    group.setIsEdtor(true);
+
+                }
+                notifyDataSetChanged();
+            }
+        }
     }
 }
