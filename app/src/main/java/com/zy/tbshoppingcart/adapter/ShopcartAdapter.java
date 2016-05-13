@@ -33,7 +33,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
     private Context context;
     private CheckInterface checkInterface;
     private ModifyCountInterface modifyCountInterface;
-    private int flag = 0;
+    public   int flag = 0;
    private GroupEdtorListener mListener;
 
     public GroupEdtorListener getmListener() {
@@ -117,7 +117,6 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
             gholder = (GroupViewHolder) convertView.getTag();
         }
         final StoreInfo group = (StoreInfo) getGroup(groupPosition);
-        if (group != null) {
             gholder.tv_group_name.setText(group.getName());
             gholder.cb_check.setOnClickListener(new OnClickListener() {
                 @Override
@@ -143,11 +142,6 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
                     flag = (flag + 1) % 2;//其余得到循环执行上面2个不同的功能
                 }
             });
-        } else {
-            groups.remove(groupPosition);
-
-        }
-         notifyDataSetInvalidated();
          notifyDataSetChanged();
         return convertView;
     }
@@ -231,6 +225,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+
                                     return;
                                 }
                             });
@@ -253,6 +248,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+
     }
 
     /**
@@ -295,7 +291,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
          * @param groupPosition 组元素位置
          * @param isChecked     组元素选中与否
          */
-        public void checkGroup(int groupPosition, boolean isChecked);
+        void checkGroup(int groupPosition, boolean isChecked);
 
         /**
          * 子选框状态改变时触发的事件
@@ -304,7 +300,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
          * @param childPosition 子元素位置
          * @param isChecked     子元素选中与否
          */
-        public void checkChild(int groupPosition, int childPosition, boolean isChecked);
+        void checkChild(int groupPosition, int childPosition, boolean isChecked);
     }
 
     /**
@@ -319,7 +315,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
          * @param showCountView 用于展示变化后数量的View
          * @param isChecked     子元素选中与否
          */
-        public void doIncrease(int groupPosition, int childPosition, View showCountView, boolean isChecked);
+        void doIncrease(int groupPosition, int childPosition, View showCountView, boolean isChecked);
 
         /**
          * 删减操作
@@ -329,20 +325,20 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
          * @param showCountView 用于展示变化后数量的View
          * @param isChecked     子元素选中与否
          */
-        public void doDecrease(int groupPosition, int childPosition, View showCountView, boolean isChecked);
+        void doDecrease(int groupPosition, int childPosition, View showCountView, boolean isChecked);
 
         /**
          * 删除子item
          * @param groupPosition
          * @param childPosition
          */
-        public void childDelete(int groupPosition,int childPosition);
+        void childDelete(int groupPosition, int childPosition);
     }
 
     /**
      * 监听编辑状态
      */
     public interface GroupEdtorListener{
-        public void groupEdit(int groupPosition);
+        void groupEdit(int groupPosition);
     }
 }
