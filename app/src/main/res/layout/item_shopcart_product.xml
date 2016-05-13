@@ -54,15 +54,17 @@
                 android:layout_marginTop="20dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="第八号当铺美女一枚"
+                android:text="第八号店铺"
                 android:textColor="@color/grey_color1"
-                android:textSize="@dimen/txt_14" />
+                android:singleLine="true"
+                android:textSize="@dimen/txt_12" />
             <TextView
                 android:id="@+id/tv_color_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="颜色：黑色；尺码：29"
                 android:textColor="@color/gray"
+                android:layout_marginTop="5dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
