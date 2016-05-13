@@ -82,6 +82,7 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
         setContentView(R.layout.activity_main);
         context = this;
         initDatas();
+
         ButterKnife.inject(this);
         initEvents();
     }
