@@ -104,6 +104,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+
         final GroupViewHolder gholder;
         if (convertView == null) {
             gholder = new GroupViewHolder();
@@ -144,11 +145,10 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
             });
         } else {
             groups.remove(groupPosition);
+
         }
+         notifyDataSetInvalidated();
          notifyDataSetChanged();
-        // #######################################修复删除group后文字没有复位###########################################
-         gholder.store_edtor.setText("编辑");//编辑状态复位
-         flag=0;//点击状态复位
         return convertView;
     }
 
@@ -346,15 +346,3 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
         public void groupEdit(int groupPosition);
     }
 }
-
-
-   
-
-
-
-     
-
-
-
-
-

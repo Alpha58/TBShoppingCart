@@ -23,7 +23,11 @@
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center_vertical"
                 android:padding="12dp"
+<<<<<<< HEAD
                 android:src="@mipmap/topbar_up" />
+=======
+                android:src="@drawable/topbar_up" />
+>>>>>>> Initial commit
 
             <TextView
                 android:id="@+id/title"
@@ -40,7 +44,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+<<<<<<< HEAD
                 android:layout_marginRight="40dp"
+=======
+                android:layout_marginRight="20dp"
+>>>>>>> Initial commit
                 android:gravity="center"
                 android:minHeight="48dp"
                 android:text="编辑"
