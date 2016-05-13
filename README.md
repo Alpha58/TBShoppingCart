@@ -1,7 +1,7 @@
 ***做商城类电商app购物车确实一直是一个难点，为什么难呢？***
 主要原因呢是他里面的逻辑复杂，然后 百度的资源好像都不太理想，好多就是一个简单的listView来实现根本就达不到开发的需求。然后 一般都涉及到了店铺概念，就不再是一个简单listView能解决 的，如果用2个listView来嵌套的话涉及到批量操作和商品的勾选以及单个商品的或整个店铺商品的操作，那样逻辑变复杂了，然后动不动要用map去保存勾选状态，时不时出现position的错位和数组下标越界等，而且性能感觉不太好。
 这里我使用的ExpandableListView，然后要完全实现淘宝购物车也是有难度的，由于能力也是有限这里也是参考了一些人的然后搞了好几天才大致实现了淘宝购物车功能。
-我的博客[TBShoppingCart](http://blog.csdn.net/u013278099/article/details/50822074)
+我的博客[http://blog.csdn.net/u013278099/article/details/50822074](http://blog.csdn.net/u013278099/article/details/50822074)
 ####本篇的效果：（如下4张图）  
 
 ![pic1](https://github.com/zilianliuxue/TBShoppingCart/blob/master/pic1.gif)     
