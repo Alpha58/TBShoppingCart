@@ -125,6 +125,7 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
     }
 
     private void clearCart() {
+        title.setText("购物车" + "(" + 0 + ")");
         subtitle.setVisibility(View.GONE);
         llCart.setVisibility(View.GONE);
         cart_empty.setVisibility(View.VISIBLE);
