@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.Window;
@@ -117,10 +115,12 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
                 count += 1;
             }
         }
-        title.setText("购物车" + "(" + count + ")");
+
         //购物车已清空
         if(count==0){
             clearCart();
+        } else{
+            title.setText("购物车" + "(" + count + ")");
         }
     }
 
@@ -172,7 +172,7 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
         }
         groups.removeAll(toBeDeleteGroups);
         selva.notifyDataSetChanged();
-        calculate();
+
     }
 
     @Override
@@ -213,7 +213,8 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
             groups.remove(groupPosition);
         }
         selva.notifyDataSetChanged();
-        handler.sendEmptyMessage(0);
+   //     handler.sendEmptyMessage(0);
+        calculate();
     }
 
     @Override
@@ -307,8 +308,6 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
                     totalPrice += product.getPrice() * product.getCount();
                 }
             }
-
-
         }
 
         tvTotalPrice.setText("￥" + totalPrice);
@@ -316,6 +315,8 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
         //计算购物车的金额为0时候清空购物车的视图
         if(totalCount==0){
             setCartNum();
+        } else{
+            title.setText("购物车" + "(" + totalCount + ")");
         }
     }
 
@@ -412,12 +413,22 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
         selva.notifyDataSetChanged();
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            //删除购物车后动态改变数量
-            setCartNum();
-        }
-    };
+//    Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            //删除购物车后动态改变数量
+//            setCartNum();
+//        }
+//    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        selva=null;
+        groups.clear();
+        totalPrice=0;
+        totalCount=0;
+        children.clear();
+    }
 }
