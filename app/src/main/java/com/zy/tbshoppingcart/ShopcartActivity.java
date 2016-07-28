@@ -172,6 +172,8 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
             childs.removeAll(toBeDeleteProducts);
         }
         groups.removeAll(toBeDeleteGroups);
+        //记得重新设置购物车
+        setCartNum();
         selva.notifyDataSetChanged();
 
     }
