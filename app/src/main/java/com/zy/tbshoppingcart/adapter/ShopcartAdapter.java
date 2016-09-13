@@ -9,6 +9,7 @@ import android.text.style.StrikethroughSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -111,7 +112,6 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
 
         final GroupViewHolder gholder;
         if (convertView == null) {
-
             convertView = View.inflate(context, R.layout.item_shopcart_group, null);
             gholder = new GroupViewHolder(convertView);
             convertView.setTag(gholder);
@@ -143,15 +143,26 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(final int groupPosition, final int childPosition, final boolean isLastChild, View convertView, final ViewGroup parent) {
+
         final ChildViewHolder cholder;
         if (convertView == null) {
-
             convertView = View.inflate(context, R.layout.item_shopcart_product, null);
+//            if(isLastChild&&getChild(groupPosition,childPosition)!=null)
+//            {
+//                View    v = View.inflate(context, R.layout.child_footer,null);
+//                TextView txtFooter = (TextView)v.findViewById(R.id.txtFooter);
+//                txtFooter.setText("店铺满99元包邮");
+//                if(convertView instanceof ViewGroup){
+//                    ((ViewGroup) convertView).addView(v);
+//                }
+//            }
+
             cholder = new ChildViewHolder(convertView);
             convertView.setTag(cholder);
         } else {
             cholder = (ChildViewHolder) convertView.getTag();
         }
+
         if (groups.get(groupPosition).isEdtor() == true) {
             cholder.llEdtor.setVisibility(View.VISIBLE);
             cholder.rlNoEdtor.setVisibility(View.GONE);
@@ -160,7 +171,17 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
             cholder.rlNoEdtor.setVisibility(View.VISIBLE);
         }
         final GoodsInfo goodsInfo = (GoodsInfo) getChild(groupPosition, childPosition);
+
+
+        if(isLastChild&&getChild(groupPosition,childPosition)!=null){
+            cholder.stub.setVisibility(View.VISIBLE);
+            //  TextView tv= (TextView) cholder.stub.findViewById(R.id.txtFooter);//这里用来动态显示店铺满99元包邮文字内容
+        }else{
+            cholder.stub.setVisibility(View.GONE);
+        }
         if (goodsInfo != null) {
+
+
             cholder.tvIntro.setText(goodsInfo.getDesc());
             cholder.tvPrice.setText("￥" + goodsInfo.getPrice() + "");
             cholder.tvNum.setText(goodsInfo.getCount() + "");
@@ -223,7 +244,9 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
 
                 }
             });
+
         }
+
         return convertView;
     }
 
@@ -380,7 +403,8 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
         TextView tvGoodsDelete;
         @BindView(R.id.ll_edtor)
         LinearLayout llEdtor;
-
+        @BindView(R.id.stub)
+        ViewStub stub;
         ChildViewHolder(View view) {
             ButterKnife.bind(this, view);
         }

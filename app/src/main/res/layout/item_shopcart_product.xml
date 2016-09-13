@@ -187,5 +187,11 @@
                android:textColor="@color/white"/>
         </LinearLayout>
     </LinearLayout>
-
+    <ViewStub
+        android:id="@+id/stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout="@layout/child_footer"
+        />
 </LinearLayout>
