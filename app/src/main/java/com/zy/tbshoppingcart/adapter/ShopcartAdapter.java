@@ -24,17 +24,21 @@ import com.zy.tbshoppingcart.entity.StoreInfo;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * 购物车数据适配器
  */
 public class ShopcartAdapter extends BaseExpandableListAdapter {
+
     private List<StoreInfo> groups;
     private Map<String, List<GoodsInfo>> children;
     private Context context;
     private CheckInterface checkInterface;
     private ModifyCountInterface modifyCountInterface;
-    public   int flag = 0;
-   private GroupEdtorListener mListener;
+    public int flag = 0;
+    private GroupEdtorListener mListener;
 
     public GroupEdtorListener getmListener() {
         return mListener;
@@ -107,35 +111,33 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
 
         final GroupViewHolder gholder;
         if (convertView == null) {
-            gholder = new GroupViewHolder();
+
             convertView = View.inflate(context, R.layout.item_shopcart_group, null);
-            gholder.cb_check = (CheckBox) convertView.findViewById(R.id.determine_chekbox);
-            gholder.tv_group_name = (TextView) convertView.findViewById(R.id.tv_source_name);
-            gholder.store_edtor = (Button) convertView.findViewById(R.id.tv_store_edtor);
+            gholder = new GroupViewHolder(convertView);
             convertView.setTag(gholder);
         } else {
             gholder = (GroupViewHolder) convertView.getTag();
         }
         final StoreInfo group = (StoreInfo) getGroup(groupPosition);
 
-            gholder.tv_group_name.setText(group.getName());
-            gholder.cb_check.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v)
+        gholder.tvSourceName.setText(group.getName());
+        gholder.determineChekbox.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v)
 
-                {
-                    group.setChoosed(((CheckBox) v).isChecked());
-                    checkInterface.checkGroup(groupPosition, ((CheckBox) v).isChecked());// 暴露组选接口
-                }
-            });
-            gholder.cb_check.setChecked(group.isChoosed());
+            {
+                group.setChoosed(((CheckBox) v).isChecked());
+                checkInterface.checkGroup(groupPosition, ((CheckBox) v).isChecked());// 暴露组选接口
+            }
+        });
+        gholder.determineChekbox.setChecked(group.isChoosed());
         if (group.isEdtor()) {
-            gholder.store_edtor.setText("完成");
+            gholder.tvStoreEdtor.setText("完成");
         } else {
-            gholder.store_edtor.setText("编辑");
+            gholder.tvStoreEdtor.setText("编辑");
         }
-        gholder.store_edtor.setOnClickListener(new GroupViewClick(groupPosition,gholder.store_edtor,group));
-         notifyDataSetChanged();
+        gholder.tvStoreEdtor.setOnClickListener(new GroupViewClick(groupPosition, gholder.tvStoreEdtor, group));
+        notifyDataSetChanged();
         return convertView;
     }
 
@@ -143,72 +145,59 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
     public View getChildView(final int groupPosition, final int childPosition, final boolean isLastChild, View convertView, final ViewGroup parent) {
         final ChildViewHolder cholder;
         if (convertView == null) {
-            cholder = new ChildViewHolder();
+
             convertView = View.inflate(context, R.layout.item_shopcart_product, null);
-            cholder.cb_check = (CheckBox) convertView.findViewById(R.id.check_box);
-            cholder.tv_product_desc = (TextView) convertView.findViewById(R.id.tv_intro);
-            cholder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
-            cholder.iv_increase = (TextView) convertView.findViewById(R.id.tv_add);
-            cholder.iv_decrease = (TextView) convertView.findViewById(R.id.tv_reduce);
-            cholder.tv_count = (TextView) convertView.findViewById(R.id.tv_num);
-            cholder.rl_no_edtor = (RelativeLayout) convertView.findViewById(R.id.rl_no_edtor);
-            cholder.tv_color_size = (TextView) convertView.findViewById(R.id.tv_color_size);
-            cholder.tv_discount_price = (TextView) convertView.findViewById(R.id.tv_discount_price);
-            cholder.tv_buy_num = (TextView) convertView.findViewById(R.id.tv_buy_num);
-            cholder.ll_edtor = (LinearLayout) convertView.findViewById(R.id.ll_edtor);
-            cholder.tv_colorsize = (TextView) convertView.findViewById(R.id.tv_colorsize);
-            cholder.tv_goods_delete = (TextView) convertView.findViewById(R.id.tv_goods_delete);
-            cholder.iv_adapter_list_pic= (ImageView) convertView.findViewById(R.id.iv_adapter_list_pic);
+            cholder = new ChildViewHolder(convertView);
             convertView.setTag(cholder);
         } else {
             cholder = (ChildViewHolder) convertView.getTag();
         }
         if (groups.get(groupPosition).isEdtor() == true) {
-            cholder.ll_edtor.setVisibility(View.VISIBLE);
-            cholder.rl_no_edtor.setVisibility(View.GONE);
+            cholder.llEdtor.setVisibility(View.VISIBLE);
+            cholder.rlNoEdtor.setVisibility(View.GONE);
         } else {
-            cholder.ll_edtor.setVisibility(View.GONE);
-            cholder.rl_no_edtor.setVisibility(View.VISIBLE);
+            cholder.llEdtor.setVisibility(View.GONE);
+            cholder.rlNoEdtor.setVisibility(View.VISIBLE);
         }
         final GoodsInfo goodsInfo = (GoodsInfo) getChild(groupPosition, childPosition);
         if (goodsInfo != null) {
-            cholder.tv_product_desc.setText(goodsInfo.getDesc());
-            cholder.tv_price.setText("￥" + goodsInfo.getPrice() + "");
-            cholder.tv_count.setText(goodsInfo.getCount() + "");
-            cholder.iv_adapter_list_pic.setImageResource(goodsInfo.getGoodsImg());
-            cholder.tv_color_size.setText("颜色：" + goodsInfo.getColor() + "," + "尺码：" + goodsInfo.getSize() + "瓶/斤");
-            SpannableString spanString = new SpannableString("￥"+String.valueOf(goodsInfo.getDiscountPrice()));
+            cholder.tvIntro.setText(goodsInfo.getDesc());
+            cholder.tvPrice.setText("￥" + goodsInfo.getPrice() + "");
+            cholder.tvNum.setText(goodsInfo.getCount() + "");
+            cholder.ivAdapterListPic.setImageResource(goodsInfo.getGoodsImg());
+            cholder.tvColorsize.setText("颜色：" + goodsInfo.getColor() + "," + "尺码：" + goodsInfo.getSize() + "瓶/斤");
+            SpannableString spanString = new SpannableString("￥" + String.valueOf(goodsInfo.getDiscountPrice()));
             StrikethroughSpan span = new StrikethroughSpan();
-            spanString.setSpan(span, 0, String.valueOf(goodsInfo.getDiscountPrice()).length()+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spanString.setSpan(span, 0, String.valueOf(goodsInfo.getDiscountPrice()).length() + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             //避免无限次的appand
-            if(cholder.tv_discount_price.getText().toString().length()>0){
-                cholder.tv_discount_price.setText("");
+            if (cholder.tvDiscountPrice.getText().toString().length() > 0) {
+                cholder.tvDiscountPrice.setText("");
             }
-            cholder.tv_discount_price.append(spanString);
-            cholder.tv_buy_num.setText("x" + goodsInfo.getCount());
-            cholder.cb_check.setChecked(goodsInfo.isChoosed());
-            cholder.cb_check.setOnClickListener(new OnClickListener() {
+            cholder.tvDiscountPrice.append(spanString);
+            cholder.tvBuyNum.setText("x" + goodsInfo.getCount());
+            cholder.checkBox.setChecked(goodsInfo.isChoosed());
+            cholder.checkBox.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     goodsInfo.setChoosed(((CheckBox) v).isChecked());
-                    cholder.cb_check.setChecked(((CheckBox) v).isChecked());
+                    cholder.checkBox.setChecked(((CheckBox) v).isChecked());
                     checkInterface.checkChild(groupPosition, childPosition, ((CheckBox) v).isChecked());// 暴露子选接口
                 }
             });
-            cholder.iv_increase.setOnClickListener(new OnClickListener() {
+            cholder.tvAdd.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    modifyCountInterface.doIncrease(groupPosition, childPosition, cholder.tv_count, cholder.cb_check.isChecked());// 暴露增加接口
+                    modifyCountInterface.doIncrease(groupPosition, childPosition, cholder.tvNum, cholder.checkBox.isChecked());// 暴露增加接口
                 }
             });
-            cholder.iv_decrease.setOnClickListener(new OnClickListener() {
+            cholder.tvReduce.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    modifyCountInterface.doDecrease(groupPosition, childPosition, cholder.tv_count, cholder.cb_check.isChecked());// 暴露删减接口
+                    modifyCountInterface.doDecrease(groupPosition, childPosition, cholder.tvNum, cholder.checkBox.isChecked());// 暴露删减接口
                 }
             });
             //删除 购物车
-            cholder.tv_goods_delete.setOnClickListener(new OnClickListener() {
+            cholder.tvGoodsDelete.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AlertDialog alert = new AlertDialog.Builder(context).create();
@@ -244,35 +233,9 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
 
     }
 
-    /**
-     * 组元素绑定器
-     */
-    private class GroupViewHolder {
-        CheckBox cb_check;
-        TextView tv_group_name;
-        Button store_edtor;
-    }
 
-    /**
-     * 子元素绑定器
-     */
-    private class ChildViewHolder {
-        CheckBox cb_check;
-        ImageView iv_adapter_list_pic;
-        TextView tv_product_name;
-        TextView tv_product_desc;
-        TextView tv_price;
-        TextView iv_increase;
-        TextView tv_count;
-        TextView iv_decrease;
-        RelativeLayout rl_no_edtor;
-        TextView tv_color_size;
-        TextView tv_discount_price;
-        TextView tv_buy_num;
-        LinearLayout ll_edtor;
-        TextView tv_colorsize;
-        TextView tv_goods_delete;
-    }
+
+
 
     /**
      * 复选框接口
@@ -322,6 +285,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
 
         /**
          * 删除子item
+         *
          * @param groupPosition
          * @param childPosition
          */
@@ -331,15 +295,16 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
     /**
      * 监听编辑状态
      */
-    public interface GroupEdtorListener{
+    public interface GroupEdtorListener {
         void groupEdit(int groupPosition);
     }
+
     /**
      * 使某个组处于编辑状态
-     * <p>
+     * <p/>
      * groupPosition组的位置
      */
-    class GroupViewClick implements View.OnClickListener {
+    class GroupViewClick implements OnClickListener {
         private int groupPosition;
         private Button edtor;
         private StoreInfo group;
@@ -363,5 +328,62 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
                 notifyDataSetChanged();
             }
         }
+    }
+
+    /**
+     * 组元素绑定器
+     */
+    static class GroupViewHolder {
+        @BindView(R.id.determine_chekbox)
+        CheckBox determineChekbox;
+        @BindView(R.id.tv_source_name)
+        TextView tvSourceName;
+        @BindView(R.id.tv_store_edtor)
+        Button tvStoreEdtor;
+
+        GroupViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
+
+    /**
+     * 子元素绑定器
+     */
+    static class ChildViewHolder {
+        @BindView(R.id.check_box)
+        CheckBox checkBox;
+        @BindView(R.id.iv_adapter_list_pic)
+        ImageView ivAdapterListPic;
+        @BindView(R.id.tv_intro)
+        TextView tvIntro;
+        @BindView(R.id.tv_color_size)
+        TextView tvColorSize;
+        @BindView(R.id.tv_price)
+        TextView tvPrice;
+        @BindView(R.id.tv_discount_price)
+        TextView tvDiscountPrice;
+        @BindView(R.id.tv_buy_num)
+        TextView tvBuyNum;
+        @BindView(R.id.rl_no_edtor)
+        RelativeLayout rlNoEdtor;
+        @BindView(R.id.tv_reduce)
+        TextView tvReduce;
+        @BindView(R.id.tv_num)
+        TextView tvNum;
+        @BindView(R.id.tv_add)
+        TextView tvAdd;
+        @BindView(R.id.ll_change_num)
+        LinearLayout llChangeNum;
+        @BindView(R.id.tv_colorsize)
+        TextView tvColorsize;
+        @BindView(R.id.tv_goods_delete)
+        TextView tvGoodsDelete;
+        @BindView(R.id.ll_edtor)
+        LinearLayout llEdtor;
+
+        ChildViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+
     }
 }

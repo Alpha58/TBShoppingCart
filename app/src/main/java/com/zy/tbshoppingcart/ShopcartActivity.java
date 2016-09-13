@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
@@ -33,37 +33,37 @@ import butterknife.OnClick;
  */
 public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckInterface,
         ShopcartAdapter.ModifyCountInterface, ShopcartAdapter.GroupEdtorListener {
-    @InjectView(R.id.back)
+    @BindView(R.id.back)
     ImageView back;
-    @InjectView(R.id.title)
+    @BindView(R.id.title)
     TextView title;
-    @InjectView(R.id.subtitle)
+    @BindView(R.id.subtitle)
     TextView subtitle;
-    @InjectView(R.id.top_bar)
+    @BindView(R.id.top_bar)
     LinearLayout topBar;
-    @InjectView(R.id.exListView)
+    @BindView(R.id.exListView)
     ExpandableListView exListView;
-    @InjectView(R.id.tv_total_price)
+    @BindView(R.id.tv_total_price)
     TextView tvTotalPrice;
-    @InjectView(R.id.all_chekbox)
+    @BindView(R.id.all_chekbox)
     CheckBox allChekbox;
-    @InjectView(R.id.tv_delete)
+    @BindView(R.id.tv_delete)
     TextView tvDelete;
-    @InjectView(R.id.tv_go_to_pay)
+    @BindView(R.id.tv_go_to_pay)
     TextView tvGoToPay;
 
-    @InjectView(R.id.ll_shar)
+    @BindView(R.id.ll_shar)
     LinearLayout llShar;
-    @InjectView(R.id.ll_info)
+    @BindView(R.id.ll_info)
     LinearLayout llInfo;
 
-    @InjectView(R.id.tv_share)
+    @BindView(R.id.tv_share)
     TextView tvShare;
-    @InjectView(R.id.tv_save)
+    @BindView(R.id.tv_save)
     TextView tvSave;
-    @InjectView(R.id.ll_cart)
+    @BindView(R.id.ll_cart)
     LinearLayout llCart;
-    @InjectView(R.id.layout_cart_empty)
+    @BindView(R.id.layout_cart_empty)
     LinearLayout cart_empty;
     private Context context;
     private double totalPrice = 0.00;// 购买的商品总价
@@ -80,8 +80,7 @@ public class ShopcartActivity extends Activity implements ShopcartAdapter.CheckI
         setContentView(R.layout.activity_main);
         context = this;
         initDatas();
-
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initEvents();
     }
 
