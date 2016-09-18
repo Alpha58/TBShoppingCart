@@ -1,6 +1,8 @@
-***做商城类电商app购物车确实一直是一个难点，为什么难呢？***
-主要原因呢是他里面的逻辑复杂，然后 百度的资源好像都不太理想，好多就是一个简单的listView来实现根本就达不到开发的需求。然后 一般都涉及到了店铺概念，就不再是一个简单listView能解决 的，如果用2个listView来嵌套的话涉及到批量操作和商品的勾选以及单个商品的或整个店铺商品的操作，那样逻辑变复杂了，然后动不动要用map去保存勾选状态，时不时出现position的错位和数组下标越界等，而且性能感觉不太好。
-这里我使用的ExpandableListView，然后要完全实现淘宝购物车也是有难度的，由于能力也是有限这里也是参考了一些人的然后搞了好几天才大致实现了淘宝购物车功能。
+***做商城类电商app购物车确实一直是一个难点，为什么难呢？***   
+
+主要原因呢是他里面的逻辑复杂，然后 百度的资源好像都不太理想，好多就是一个简单的listView来实现根本就达不到开发的需求。然后 一般都涉及到了店铺概念，就不再是一个简单listView能解决的，如果用2个listView来嵌套的话涉及到批量操作和商品的勾选以及单个商品的或整个店铺商品的操作，那样逻辑变复杂了，然后动不动要用map去保存勾选状态，时不时出现position的错位和数组下标越界等，而且性能感觉不太好。
+这里我使用的ExpandableListView，然后要完全实现淘宝购物车也是有难度的，由于能力也是有限这里也是参考了一些人的然后搞了好几天才大致实现了淘宝购物车功能。   
+
 我的博客[http://blog.csdn.net/u013278099/article/details/50822074](http://blog.csdn.net/u013278099/article/details/50822074)
 ####本篇的效果：（如下4张图）  
 
@@ -12,7 +14,7 @@
 主布局就是一个ExpandableListView,然后top的title显示购物车的商品数量，当删除某个商品需动态更新，右上角编辑按钮改变地步遮罩层的布局并且执行相关的操作，bottom是一个遮罩层编辑时显示删除不编辑时可以去结算。然后child的布局也是通过group的编辑状态来显示不同的布局，编辑状态下需要改变商品的数量和移除商品。
 ###实例代码演示
 先来购物车主界面：
-```
+```java
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -200,7 +202,7 @@
 
 接下来我们来看child的 布局：
 
-```
+```java
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -397,7 +399,7 @@ android:background="@drawable/text_angle_right"
 
 ####**编辑按钮**的点击处理：
 
-```
+```java
   private int flag = 0;//设置按钮点击的标志位
 
   //group的按钮通过flag动态为（编辑/完成）
@@ -422,7 +424,7 @@ android:background="@drawable/text_angle_right"
 
 ####**checkBox**的多选全选反选接口的回调：
 
-```
+```java
   /**
      * 复选框接口
      */
@@ -450,7 +452,7 @@ android:background="@drawable/text_angle_right"
 
 ####child商品的数量增减和删除接口回调
 
-```
+```java
      /**
      * 改变数量的接口
      */
@@ -486,7 +488,7 @@ android:background="@drawable/text_angle_right"
 
 ####group的编辑状态的回调
 
-```
+```java
   /**
      * 监听group编辑状态
      */
@@ -501,7 +503,7 @@ android:background="@drawable/text_angle_right"
 
 #####购物车的删除
 
-```
+```java
  /**
      * 删除操作<br>
      * 1.不要边遍历边删除，容易出现数组越界的情况<br>
@@ -531,7 +533,7 @@ android:background="@drawable/text_angle_right"
 
 #####购物车数量增加
 
-```
+```java
  @Override
     public void doIncrease(int groupPosition, int childPosition,
                            View showCountView, boolean isChecked) {
@@ -548,7 +550,7 @@ android:background="@drawable/text_angle_right"
 
 #####购物车商品数量减少
 
-```
+```java
   @Override
     public void doDecrease(int groupPosition, int childPosition,View showCountView, boolean isChecked) {
         GoodsInfo product = (GoodsInfo) selva.getChild(groupPosition,
@@ -566,7 +568,7 @@ android:background="@drawable/text_angle_right"
 
 #####购物车物品的勾选状态变化
 
-```
+```java
   @Override
     public void checkGroup(int groupPosition, boolean isChecked) {//判断group是否勾选
         StoreInfo group = groups.get(groupPosition);
@@ -632,7 +634,7 @@ childs.get(j).setChoosed(allChekbox.isChecked());
 
 #####购物车结算金额的计算
 
-```
+```java
 /**
      * 统计操作<br>
      * 1.先清空全局计数器<br>
@@ -660,7 +662,7 @@ childs.get(j).setChoosed(allChekbox.isChecked());
 
 好了，前面主要的 逻辑代码都贴的差不多了，确实也看的比较琐碎，不坑大家了直接上2个 完整类的代码：
 
-```
+```java
 package com.zy.tbshoppingcart.adapter;
 
 import android.content.Context;
@@ -1010,7 +1012,7 @@ public class ShopcartAdapter extends BaseExpandableListAdapter {
 
 ```
 接下来就是购物车界面代码：
-```
+```java
 package com.zy.tbshoppingcart;
 import android.app.Activity;
 import android.content.Context;
